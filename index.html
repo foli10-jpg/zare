@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dy Zarë + Zona e Bardhë</title>
+<style>
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: sans-serif;
+    background: black; /* background i zi */
+    color: white;
+  }
+  .dice-container {
+    display: flex;
+    gap: 20px;
+    position: relative;
+    margin-bottom: 20px;
+  }
+  .dice {
+    width: 100px;
+    height: 100px;
+    background: white;
+    color: black;
+    border: 2px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    user-select: none;
+  }
+  .red-dot {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    background: red;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  /* zona e padukshme tani me rreth të bardhë */
+  .invisible-zone {
+    position: absolute;
+    bottom: -40px; /* poshtë zarëve */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 5px;
+    height: 5px;
+    background: white; /* rrethi i bardhë */
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  #sumDisplay {
+    margin-top: 10px;
+    font-size: 1.5rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="dice-container">
+  <div class="dice" id="dice1">1</div>
+  <div class="dice" id="dice2">1</div>
+  <div class="red-dot" id="redDot"></div>
+  <div class="invisible-zone" id="autoZone"></div> <!-- rrethi i bardhë -->
+</div><br>
+
+<div id="sumDisplay">Shuma e zarëve: 2</div>
+<br>
+
+<script>
+  const dice1 = document.getElementById('dice1');
+  const dice2 = document.getElementById('dice2');
+  const redDot = document.getElementById('redDot');
+  const autoZone = document.getElementById('autoZone');
+  const sumDisplay = document.getElementById('sumDisplay');
+
+  function rollDice(high=false) {
+    let num1, num2;
+
+    if(high) {
+      // numra te medhenj (4-6)
+      num1 = Math.floor(Math.random() * 3) + 4;
+      num2 = Math.floor(Math.random() * 3) + 4;
+    } else {
+      // numra normal 1-6
+      num1 = Math.floor(Math.random() * 6) + 1;
+      num2 = Math.floor(Math.random() * 6) + 1;
+    }
+
+    // efekt madhësie vizuale
+    dice1.style.fontSize = "4rem";
+    dice2.style.fontSize = "4rem";
+
+    dice1.textContent = num1;
+    dice2.textContent = num2;
+    sumDisplay.textContent = "Shuma e zarëve: " + (num1 + num2);
+
+    setTimeout(() => {
+      dice1.style.fontSize = "2rem";
+      dice2.style.fontSize = "2rem";
+    }, 1000);
+  }
+
+  // pika e kuqe: hidh zarët normal
+  redDot.addEventListener('click', () => rollDice(false));
+
+  // rrethi i bardhë (zona e padukshme): automatikisht hidh zarët me numra te medhenj
+  autoZone.addEventListener('click', () => {
+    rollDice(true);
+  });
+</script>
+
+</body>
+</html>
